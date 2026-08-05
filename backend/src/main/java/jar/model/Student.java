@@ -1,7 +1,7 @@
 package jar.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -13,8 +13,9 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     private String name;
+    @Column(unique=true)
     private String email;
-    private String ipadd;
+    private String ip;
 
     public String getName() {
         return this.name;
@@ -24,9 +25,9 @@ public class Student {
         return this.email;
     }
 
-    public String getIp() {
-        return ip;
-    }
+  public String getIp() {
+    return this.ip;
+}
 
     public void setName(String name) {
         this.name = name;
