@@ -1,5 +1,6 @@
 package jar.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,14 +21,14 @@ public class EditController {
     }
 
     @PutMapping("/edit/{id}")
-    public Student editStudent(@PathVariable Long id, @RequestBody StudentDto student) {
+    public ResponseEntity<Student> editStudent(@PathVariable Long id, @RequestBody StudentDto student) {
         return studentRepo.findById(id)
                 .map(existing -> {
                     existing.setName(student.name());
                     existing.setEmail(student.email());
                     existing.setIp(student.ip());
-                    return studentRepo.save(existing);
+                    return ResponseEntity.ok(studentRepo.save(existing));
                 })
-                .orElse(null);
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

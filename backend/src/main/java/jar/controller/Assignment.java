@@ -1,28 +1,24 @@
 package jar.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jar.dto.numberDto;
 
-import java.util.HashMap;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-
-
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class Assignment {
    
     @GetMapping("/fact")
-    public String getFactorial(@RequestParam("n") int n) {
-        return new HashMap<Integer, Integer>() {{
-            put(n, calculateFactorial(n));
-        }}.toString();
+    public ResponseEntity<Map<String, Integer>> getFactorial(@RequestParam("n") int n) {
+        return ResponseEntity.ok(Map.of("n", calculateFactorial(n)));
     }
 
     private int calculateFactorial(int n) {
@@ -33,11 +29,8 @@ public class Assignment {
     }
 
     @PostMapping("/sum/{n}")
-    public numberDto postNaturalNumberSum(@PathVariable int n) {
-        HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>() {{
-            put(n, n * (n + 1) / 2);
-        }};
-        return new numberDto(n, hash.get(n));
+    public ResponseEntity<numberDto> postNaturalNumberSum(@PathVariable int n) {
+        return ResponseEntity.ok(new numberDto(n, n * (n + 1) / 2));
     }
     
 }

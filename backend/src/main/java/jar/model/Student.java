@@ -17,6 +17,10 @@ public class Student {
     private String email;
     private String ip;
 
+    public long getId() {
+        return this.id;
+    }
+
     public String getName() {
         return this.name;
     }

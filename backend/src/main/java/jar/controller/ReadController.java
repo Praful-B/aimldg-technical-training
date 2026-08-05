@@ -2,6 +2,7 @@ package jar.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,14 @@ public class ReadController {
     }
 
     @GetMapping("/read")
-    public List<Student> readAllStudents() {
-        return studentRepo.findAll();
+    public ResponseEntity<List<Student>> readAllStudents() {
+        return ResponseEntity.ok(studentRepo.findAll());
     }
 
     @GetMapping("/read/{id}")
-    public Student readStudent(@PathVariable Long id) {
-        return studentRepo.findById(id).orElse(null);
+    public ResponseEntity<Student> readStudent(@PathVariable Long id) {
+        return studentRepo.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
